@@ -34,6 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
+    //Vamos a añadir el Json 
+    //Leemos Json, segundo cogemos datos, tercero printeamos los datos en createLi("nombre del guacho") CREATE
+
+
+    //evento remove, busca en Json el nombre y le da matarile creamos funcion para todos DELETE
+
+    //evento edit, lo mismo que remove pero lo guarda con el nombre nuevo UPDATE
+
+    //checkbox, busca nombre y le mete el bool :P UPDATE(Tiene que tener dos )
+
+
   function createLI(text) {
     function createElement(elementName, property, value) {
       const element = document.createElement(elementName);  
@@ -62,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     input.value = '';
     const li = createLI(text);
     ul.appendChild(li);
+    //TODO create(text)
   });
     
   ul.addEventListener('change', (e) => {
@@ -74,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       listItem.className = '';
     }
+    //TODO update(text,bool)
   });
     
   ul.addEventListener('click', (e) => {
@@ -85,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nameActions = {
         remove: () => {
           ul.removeChild(li);
+          //TODO delete(text);
         },
         edit: () => {
           const span = li.firstElementChild;
@@ -101,7 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
           span.textContent = input.value;
           li.insertBefore(span, input);
           li.removeChild(input);
-          button.textContent = 'edit';        
+          button.textContent = 'edit';   
+          //TODO update(text,bool); 
         }
       };
       
