@@ -33,9 +33,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }                                 
     }
   });
-  
-    //Vamos a añadir el Json 
+   //Vamos a añadir el Json 
     //Leemos Json, segundo cogemos datos, tercero printeamos los datos en createLi("nombre del guacho") CREATE
+  function datosInciales(){
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET','novios.json',true);
+
+    xhttp.onreadystatechange = function(){
+      if(this.readyState == 4 && this.status == 200){
+        let datos = JSON.parse(this.responseText);
+        for(let item of datos){
+          createLI(text);
+        }
+        
+      }
+    };
+    xhttp.send();
+  }
+  datosInciales();
+
+  
+   
 
 
     //evento remove, busca en Json el nombre y le da matarile creamos funcion para todos DELETE
@@ -98,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nameActions = {
         remove: () => {
           ul.removeChild(li);
-          //TODO delete(text);
+          //TODO delete(text); Por que es aqui? 
         },
         edit: () => {
           const span = li.firstElementChild;
