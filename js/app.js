@@ -35,25 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
    //Vamos a añadir el Json 
     //Leemos Json, segundo cogemos datos, tercero printeamos los datos en createLi("nombre del guacho") CREATE
-  function datosInciales(){
-    const xhttp = new XMLHttpRequest();
-    xhttp.open('GET','novios.json',true);
-
-    xhttp.onreadystatechange = function(){
-      if(this.readyState == 4 && this.status == 200){
-        let datos = JSON.parse(this.responseText);
-        for(let item of datos){
-          createLI(text);
-        }
-        
-      }
-    };
-    xhttp.send();
-  }
-  datosInciales();
-
-  
-   
 
 
     //evento remove, busca en Json el nombre y le da matarile creamos funcion para todos DELETE
@@ -62,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //checkbox, busca nombre y le mete el bool :P UPDATE(Tiene que tener dos )
 
-
-  function createLI(text) {
+  //Necesitamos un booleano por argunmento para poder hacer check al checkbox
+  function createLI(text, bool) {
     function createElement(elementName, property, value) {
       const element = document.createElement(elementName);  
       element[property] = value; 
@@ -82,6 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
       .appendChild(createElement('input', 'type', 'checkbox'));
     appendToLI('button', 'textContent', 'edit');
     appendToLI('button', 'textContent', 'remove');
+    //Ya que no se como hacerlo arriba nos movemos por el arbor de hijos y le asignamos el checked a true
+    if(bool){
+      li.childNodes[1].childNodes[1].checked=true
+    }
     return li;
   }
   
