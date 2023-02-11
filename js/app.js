@@ -37,13 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
     //Leemos Json, segundo cogemos datos, tercero printeamos los datos en createLi("nombre del guacho") CREATE
     function datosInciales(){
       const xhttp = new XMLHttpRequest();
-      xhttp.open('GET','novios.json',true);
+      xhttp.open('GET','https://my-json-server.typicode.com/DWEC-2022-23/ut06_ajax-julenlopez_irenemerino/invitados',true);
   
       xhttp.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
           let datos = JSON.parse(this.response);
-          for(let item of datos){
-            createLI(item["nombre"]);
+          console.log(datos);
+          for(let item of datos ["invitados"]){
+            createLI(item["nombre"],item["confirmado"]);
+            ul.appendChild(item);
           }
           
         }
