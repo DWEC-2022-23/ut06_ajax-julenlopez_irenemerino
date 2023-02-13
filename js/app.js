@@ -33,12 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }                                 
     }
   });
-   //Vamos a añadir el Json 
-    //Leemos Json, segundo cogemos datos, tercero printeamos los datos en createLi("nombre del guacho") CREATE
+   
+    //Muestra Lista de invitados. 
     function datosInciales(){
       const xhttp = new XMLHttpRequest();
       xhttp.open('GET','https://my-json-server.typicode.com/DWEC-2022-23/ut06_ajax-julenlopez_irenemerino/invitados',true);
-  
       xhttp.onreadystatechange = function(){
 
         if(this.readyState == 4 && this.status == 200){
@@ -53,14 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
       xhttp.send();
     }
     datosInciales();
+    function nuevoInvitado(){
+      //Llama a createLi y guarda el nuevo invitado en el JSON.
 
-
+    }
     //evento remove, busca en Json el nombre y le da matarile creamos funcion para todos DELETE
-
     //evento edit, lo mismo que remove pero lo guarda con el nombre nuevo UPDATE
-
     //checkbox, busca nombre y le mete el bool :P UPDATE(Tiene que tener dos )
-
   //Necesitamos un booleano por argunmento para poder hacer check al checkbox
   function createLI(text, bool) {
     function createElement(elementName, property, value) {
