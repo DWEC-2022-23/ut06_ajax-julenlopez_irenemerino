@@ -20,14 +20,19 @@
       "id": 6
     },
     {
-      "nombre": "Irene Guapa",
+      "nombre": "Invitado 9",
       "confirmado": false,
-      "id": 7 
+      "id": 7
     },
     {
       "nombre": "Julen Lopez",
       "confirmado": false,
       "id": 8
+    },
+    {
+      "nombre": "Invitado 9",
+      "confirmado": false,
+      "id": 9
     }
   ]
 }
