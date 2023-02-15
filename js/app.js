@@ -36,11 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-
-  //evento remove, busca en Json el nombre y le da matarile creamos funcion para todos DELETE
-  //evento edit, lo mismo que remove pero lo guarda con el nombre nuevo UPDATE
-  //checkbox, busca nombre y le mete el bool :P UPDATE(Tiene que tener dos )
-  //Necesitamos un booleano por argunmento para poder hacer check al checkbox
   function createLI(text, bool) {
     function createElement(elementName, property, value) {
       const element = document.createElement(elementName);
@@ -77,8 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
     create(text);
   });
 
-
-
   ul.addEventListener('change', (e) => {
     const checkbox = event.target;
     const checked = checkbox.checked;
@@ -100,8 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const action = button.textContent;
       const nameActions = {
         remove: () => {
-          ul.removeChild(li);
-          //TODO delete(text); Por que es aqui? 
+           //TODO delete(text);
+          borrar(Array.prototype.indexOf.call(li.parentNode.children,li)+1);
+          ul.removeChild(li);   
         },
         edit: () => {
           const span = li.firstElementChild;
@@ -119,11 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
           li.insertBefore(span, input);
           li.removeChild(input);
           button.textContent = 'edit';
-          //TODO update(text,bool); 
-          update(span.textContent,li.childNodes[1].childNodes[1].checked, li.parentNode.children.indexOf(li));
-          update(new Invitados (invitado.id, invitado.firstElementChild.textContent, invitado.querySelector("input").checked));
-          
-
+          // span recoge contenido que han introducido y el valor del checked para poder modificarlo. 
+          let invitado = new Invitados (span.textContent, li.querySelector("label").querySelector("input").checked)
+          // Oye padre dame a tus hijos y entre tus hijos dime cual soy yo. 
+          invitado.setId(Array.prototype.indexOf.call(li.parentNode.children,li)+1);
+          console.log(invitado)
+          update(invitado.id,invitado.nombre,invitado.confirmado);
+          //PREGUNTAR CARLOS PORQUE NO LE DA TIEMPO A EJECUTARSE
         }
       };
 
@@ -174,20 +170,45 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
   //Funcion UPDATE.
-  function update(invitados) {
+  function update(id,nombre,bool) {
     //console.log(new Invitados(nombre,bool))
-    const url = 'http://localhost:3000/invitados';
+    console.log(id)
+    let url = 'http://localhost:3000/invitados/'+id;
+
+    
     fetch(url, {
       headers: {
-        'Content-type': 'application/json; charset=UTF=8'
+        'Content-type': 'application/json'
       },
       method: 'PUT',
-      body: JSON.stringify(new Invitados(invitados.id, invitados.firstElementChild.textContent, invitados.querySelector("input").checked))
+      body: JSON.stringify(new Invitados(nombre,bool))
     })
       .then(function (response) {
         // Transforma la respuesta. En este caso lo convierte a JSON
         return response.json();
       })
+      //Promise
+      .then(function (json) {
+        // Usamos la información recibida como necesitemos
+        console.log(json)
+      });
+  }
+   //Funcion DELETE.
+   function borrar(id) {
+    //console.log(new Invitados(nombre,bool))
+    console.log(id)
+    let url = 'http://localhost:3000/invitados/'+id;
+    fetch(url, {
+      headers: {
+        'Content-type': 'application/json'
+      },
+      method: 'DELETE',
+    })
+      .then(function (response) {
+        // Transforma la respuesta. En este caso lo convierte a JSON
+        return response.json();
+      })
+      //Promise
       .then(function (json) {
         // Usamos la información recibida como necesitemos
         console.log(json)

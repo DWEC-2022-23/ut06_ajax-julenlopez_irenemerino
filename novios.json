@@ -11,16 +11,8 @@
       "confirmado": true
     },
     {
-      "id": 3,
-      "confirmado": true
-    },
-    {
       "confirmado": true,
       "id": 4
-    },
-    {
-      "confirmado": true,
-      "id": 5
     },
     {
       "nombre": "Pepe",
@@ -28,9 +20,9 @@
       "id": 6
     },
     {
-      "nombre": "Irene ",
+      "nombre": "Irene Guapa",
       "confirmado": false,
-      "id": 7
+      "id": 7 
     },
     {
       "nombre": "Julen Lopez",
