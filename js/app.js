@@ -1,3 +1,6 @@
+var arrayInvitados = new Array;//Tengo variable datos checkar
+var idEditandose;//Por ahora podria mantenerlo
+
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('registrar');
   const input = form.querySelector('input');
@@ -9,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterLabel = document.createElement('label');
   const filterCheckBox = document.createElement('input');
 
-  var datos;
+  var datos;//--Usar esto o el de arriba--------Mejor este si me vale que ya se usa
 
   filterLabel.textContent = "Ocultar los que no hayan respondido";
   filterCheckBox.type = 'checkbox';
@@ -93,15 +96,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const action = button.textContent;
       const nameActions = {
         remove: () => {
-           //TODO delete(text);
-          borrar(Array.prototype.indexOf.call(li.parentNode.children,li)+1);
-          ul.removeChild(li);   
+          //TODO delete(text);
+          borrar(Array.prototype.indexOf.call(li.parentNode.children, li) + 1);
+          ul.removeChild(li);
         },
         edit: () => {
+          //Recojemos en este evento el id del invitado a editar
           const span = li.firstElementChild;
           const input = document.createElement('input');
+          
+  console.log(datos);
           input.type = 'text';
           input.value = span.textContent;
+          arrayInvitados.forEach(invitado => {
+            if (span.textContent == invitado.nombre)
+              idEditandose = invitado.id;
+          });
           li.insertBefore(input, span);
           li.removeChild(span);
           button.textContent = 'save';
@@ -109,16 +119,26 @@ document.addEventListener('DOMContentLoaded', () => {
         save: () => {
           const input = li.firstElementChild;
           const span = document.createElement('span');
+          let repetido = false;
           span.textContent = input.value;
-          li.insertBefore(span, input);
-          li.removeChild(input);
-          button.textContent = 'edit';
-          // span recoge contenido que han introducido y el valor del checked para poder modificarlo. 
-          let invitado = new Invitados (span.textContent, li.querySelector("label").querySelector("input").checked)
-          // Oye padre dame a tus hijos y entre tus hijos dime cual soy yo. 
-          invitado.setId(Array.prototype.indexOf.call(li.parentNode.children,li)+1);
-          console.log(invitado)
-          update(invitado.id,invitado.nombre,invitado.confirmado);
+          //Comprobamos que no se haya creado un invitado con ese nombre
+          arrayInvitados.forEach(invitado => {
+            if (span.textContent == invitado.nombre && span.textContent != arrayInvitados[arrayInvitados.indexOf(idEditandose)].nombre)
+              repetido = true;
+          });
+          //Si es un invitado nuevo procedemos a editarlo posible problema a la hora de cambiar al nombre original
+          if (!repetido) {
+            li.insertBefore(span, input);
+            li.removeChild(input);
+            button.textContent = 'edit';
+            // span recoge contenido que han introducido y el valor del checked para poder modificarlo. 
+            let invitado = new Invitados(span.textContent, li.querySelector("label").querySelector("input").checked, idEditandose)
+            // Oye padre dame a tus hijos y entre tus hijos dime cual soy yo. 
+            console.log(invitado)
+            update(invitado.id, invitado.nombre, invitado.confirmado);
+          } else {
+            alert("Persona ya incluida")
+          }
           //PREGUNTAR CARLOS PORQUE NO LE DA TIEMPO A EJECUTARSE
         }
       };
@@ -139,6 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
         datos = JSON.parse(this.response);
         //console.log(datos);
         for (let item of datos) {
+          //Creamos el array con todos los objetos JSON
+          console.log(item)
+          arrayInvitados.push(item);
           let muestraLista = createLI(item.nombre, item.confirmado);
           ul.appendChild(muestraLista);
         }
@@ -147,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
     xhttp.send();
   }
   datosInciales();
-
+  console.log(datos);
   //OPERACIONES CRUD
   //Funcion que CREA y GUARDA un nuevo invitado. 
   function create(text) {
@@ -170,18 +193,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
   //Funcion UPDATE.
-  function update(id,nombre,bool) {
+  function update(id, nombre, bool) {
     //console.log(new Invitados(nombre,bool))
     console.log(id)
-    let url = 'http://localhost:3000/invitados/'+id;
+    let url = 'http://localhost:3000/invitados/' + id;
 
-    
+
     fetch(url, {
       headers: {
         'Content-type': 'application/json'
       },
       method: 'PUT',
-      body: JSON.stringify(new Invitados(nombre,bool))
+      body: JSON.stringify(new Invitados(nombre, bool))
     })
       .then(function (response) {
         // Transforma la respuesta. En este caso lo convierte a JSON
@@ -193,11 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(json)
       });
   }
-   //Funcion DELETE.
-   function borrar(id) {
+  //Funcion DELETE.
+  function borrar(id) {
     //console.log(new Invitados(nombre,bool))
     console.log(id)
-    let url = 'http://localhost:3000/invitados/'+id;
+    let url = 'http://localhost:3000/invitados/' + id;
     fetch(url, {
       headers: {
         'Content-type': 'application/json'
