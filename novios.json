@@ -11,18 +11,9 @@
       "confirmado": true
     },
     {
-      "confirmado": true,
-      "id": 4
-    },
-    {
-      "nombre": "Pepe",
+      "nombre": "Jose",
       "confirmado": true,
       "id": 6
-    },
-    {
-      "nombre": "Invitado 9",
-      "confirmado": false,
-      "id": 7
     },
     {
       "nombre": "Julen Lopez",
@@ -33,6 +24,11 @@
       "nombre": "Invitado 9",
       "confirmado": false,
       "id": 9
+    },
+    {
+      "nombre": "Holiwi",
+      "confirmado": true,
+      "id": 10
     }
   ]
 }

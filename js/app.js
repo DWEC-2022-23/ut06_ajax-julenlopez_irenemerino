@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterLabel = document.createElement('label');
   const filterCheckBox = document.createElement('input');
 
-  var datos;//--Usar esto o el de arriba--------Mejor este si me vale que ya se usa
+  var datos;//Podemos usarlo, lo dejo en tus manos Ire
 
   filterLabel.textContent = "Ocultar los que no hayan respondido";
   filterCheckBox.type = 'checkbox';
@@ -97,21 +97,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const nameActions = {
         remove: () => {
           //TODO delete(text);
-          borrar(Array.prototype.indexOf.call(li.parentNode.children, li) + 1);
+          const span = li.firstElementChild;
+          borrar(getIdInvitado(span.textContent, arrayInvitados));
           ul.removeChild(li);
         },
         edit: () => {
           //Recojemos en este evento el id del invitado a editar
           const span = li.firstElementChild;
           const input = document.createElement('input');
-          
-  console.log(datos);
           input.type = 'text';
           input.value = span.textContent;
-          arrayInvitados.forEach(invitado => {
-            if (span.textContent == invitado.nombre)
-              idEditandose = invitado.id;
-          });
+          idEditandose = getIdInvitado(span.textContent, arrayInvitados);
           li.insertBefore(input, span);
           li.removeChild(span);
           button.textContent = 'save';
@@ -132,9 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
             li.removeChild(input);
             button.textContent = 'edit';
             // span recoge contenido que han introducido y el valor del checked para poder modificarlo. 
+
             let invitado = new Invitados(span.textContent, li.querySelector("label").querySelector("input").checked, idEditandose)
             // Oye padre dame a tus hijos y entre tus hijos dime cual soy yo. 
-            console.log(invitado)
+            //console.log(invitado)
             update(invitado.id, invitado.nombre, invitado.confirmado);
           } else {
             alert("Persona ya incluida")
@@ -160,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
         //console.log(datos);
         for (let item of datos) {
           //Creamos el array con todos los objetos JSON
-          console.log(item)
           arrayInvitados.push(item);
           let muestraLista = createLI(item.nombre, item.confirmado);
           ul.appendChild(muestraLista);
@@ -170,12 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
     xhttp.send();
   }
   datosInciales();
-  console.log(datos);
   //OPERACIONES CRUD
   //Funcion que CREA y GUARDA un nuevo invitado. 
   function create(text) {
     const url = 'http://localhost:3000/invitados';
-    //console.log(JSON.stringify(new Invitados(nombre,false)))
     fetch(url, {
       headers: {
         'Content-type': 'application/json'
@@ -195,7 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
   //Funcion UPDATE.
   function update(id, nombre, bool) {
     //console.log(new Invitados(nombre,bool))
-    console.log(id)
     let url = 'http://localhost:3000/invitados/' + id;
 
 
@@ -236,6 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Usamos la información recibida como necesitemos
         console.log(json)
       });
+  }
+
+  function getIdInvitado(text, array) {
+    let aux = null
+    array.forEach(arr => {
+      if (text == arr.nombre) {
+        aux = arr.id;
+      }
+    });
+    return aux;
   }
 });
 
