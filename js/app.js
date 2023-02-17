@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       listItem.className = '';
     }
-    update();
+  console.log("hola has tocado el check")
   });
 
   ul.addEventListener('click', (e) => {
