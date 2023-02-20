@@ -1,5 +1,34 @@
 {
   "invitados": [
-    { "id": 1, "nombre": "María Lobo Garcia", "confirmado": false }, { "id": 2, "nombre": "Luis Fernández Sanchez", "confirmado": true}
+    {
+      "id": 1,
+      "nombre": "María Lobo Garcia",
+      "confirmado": false
+    },
+    {
+      "id": 2,
+      "nombre": "Luis Fernández Sanchez",
+      "confirmado": true
+    },
+    {
+      "nombre": "Jose",
+      "confirmado": true,
+      "id": 6
+    },
+    {
+      "nombre": "Julen Lopez",
+      "confirmado": false,
+      "id": 8
+    },
+    {
+      "nombre": "Invitado 9",
+      "confirmado": false,
+      "id": 9
+    },
+    {
+      "nombre": "Holiwi",
+      "confirmado": true,
+      "id": 10
+    }
   ]
 }
