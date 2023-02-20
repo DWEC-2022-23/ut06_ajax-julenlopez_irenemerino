@@ -1,4 +1,4 @@
-var arrayInvitados = new Array;//Tengo variable datos checkar
+var arrayInvitados = new Array();//Tengo variable datos checkar
 var idEditandose;//Por ahora podria mantenerlo
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Ya que no se como hacerlo arriba nos movemos por el arbol de hijos y le asignamos el checked a true
     if (bool) {
-      li.childNodes[1].childNodes[1].checked = true
+      li.childNodes[1].childNodes[1].checked = true;
     }
     return li;
   }
@@ -79,13 +79,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkbox = event.target;
     const checked = checkbox.checked;
     const listItem = checkbox.parentNode.parentNode;
+    const li = checkbox.parentNode.parentNode;
+    let aux;
+    if(li.firstElementChild.tagName.toLowerCase()=="span")
+      aux = li.firstElementChild.textContent;
+    else
+      aux = li.firstElementChild.value;
 
-    if (checked) {
-      listItem.className = 'responded';
-    } else {
-      listItem.className = '';
-    }
-  console.log("hola has tocado el check")
+    idEditandose = getIdInvitado(aux, arrayInvitados);
+
+    console.log(li)
+
+    let invitado = new Invitados(aux, li.querySelector("label").querySelector("input").checked, idEditandose);
+    update(invitado.id, invitado.nombre, invitado.confirmado);
   });
 
   ul.addEventListener('click', (e) => {
@@ -117,10 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
           const span = document.createElement('span');
           let repetido = false;
           span.textContent = input.value;
+          idEditandose = getIdInvitado(span.textContent, arrayInvitados);
           //Comprobamos que no se haya creado un invitado con ese nombre
           arrayInvitados.forEach(invitado => {
-            if (span.textContent == invitado.nombre && span.textContent != arrayInvitados[arrayInvitados.indexOf(idEditandose)].nombre)
+            if (span.textContent == invitado.nombre && span.textContent != arrayInvitados[arrayInvitados.indexOf(invitado)].nombre){
               repetido = true;
+            }
           });
           //Si es un invitado nuevo procedemos a editarlo posible problema a la hora de cambiar al nombre original
           if (!repetido) {
@@ -129,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = 'edit';
             // span recoge contenido que han introducido y el valor del checked para poder modificarlo. 
 
-            let invitado = new Invitados(span.textContent, li.querySelector("label").querySelector("input").checked, idEditandose)
+            let invitado = new Invitados(span.textContent, li.querySelector("label").querySelector("input").checked, idEditandose);
             // Oye padre dame a tus hijos y entre tus hijos dime cual soy yo. 
             //console.log(invitado)
             update(invitado.id, invitado.nombre, invitado.confirmado);
@@ -183,12 +191,11 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(function (json) {
         // Usamos la información recibida como necesitemos
-        console.log(json)
+        console.log(json);
       });
   }
   //Funcion UPDATE.
   function update(id, nombre, bool) {
-    //console.log(new Invitados(nombre,bool))
     let url = 'http://localhost:3000/invitados/' + id;
 
 
@@ -206,13 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
       //Promise
       .then(function (json) {
         // Usamos la información recibida como necesitemos
-        console.log(json)
+        console.log(json);
       });
   }
   //Funcion DELETE.
   function borrar(id) {
-    //console.log(new Invitados(nombre,bool))
-    console.log(id)
     let url = 'http://localhost:3000/invitados/' + id;
     fetch(url, {
       headers: {
@@ -227,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
       //Promise
       .then(function (json) {
         // Usamos la información recibida como necesitemos
-        console.log(json)
+        console.log(json);
       });
   }
 
